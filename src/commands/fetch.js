@@ -85,6 +85,7 @@ export async function _fetch({
   headers = {},
   prune = false,
   pruneTags = false,
+  filters = [],
 }) {
   const ref = _ref || (await _currentBranch({ fs, gitdir, test: true }))
   const config = await GitConfigManager.get({ fs, gitdir })
@@ -141,6 +142,9 @@ export async function _fetch({
   if (relative === true && !remoteHTTP.capabilities.has('deepen-relative')) {
     throw new RemoteCapabilityError('deepen-relative', 'relative')
   }
+  if (filters.length !== 0 && !remoteHTTP.capabilities.has('filter')) {
+    throw new RemoteCapabilityError('filter', 'filters')
+  }
   // Figure out the SHA for the requested ref
   const { oid, fullref } = GitRefManager.resolveAgainstMap({
     ref: remoteRef,
@@ -174,6 +178,7 @@ export async function _fetch({
       `agent=${pkg.agent}`,
     ]
   )
+  if (filters.length !== 0) capabilities.push('filter')
   if (relative) capabilities.push('deepen-relative')
   // Start figuring out which oids from the remote we want to request
   const wants = singleBranch ? [oid] : remoteRefs.values()
@@ -207,6 +212,7 @@ export async function _fetch({
     depth,
     since,
     exclude,
+    filters,
   })
   // CodeCommit will hang up if we don't send a Content-Length header
   // so we can't stream the body.

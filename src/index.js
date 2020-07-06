@@ -20,6 +20,8 @@ import { expandOid } from './api/expandOid.js'
 import { expandRef } from './api/expandRef.js'
 import { fastForward } from './api/fastForward.js'
 import { fetch } from './api/fetch.js'
+import { fetchTree } from './api/fetchTree.js'
+import { fetchBlob } from './api/fetchBlob.js'
 import { findMergeBase } from './api/findMergeBase.js'
 import { findRoot } from './api/findRoot.js'
 import { getConfig } from './api/getConfig.js'
@@ -133,6 +135,8 @@ export {
   writeRef,
   writeTag,
   writeTree,
+  fetchTree,
+  fetchBlob,
 }
 
 // default export
@@ -202,4 +206,6 @@ export default {
   writeRef,
   writeTag,
   writeTree,
+  fetchTree,
+  fetchBlob
 }
