@@ -35,7 +35,7 @@ export async function fetchTree({ http, url, commitId }) {
     url,
     headers: {},
   })
-  if (!remoteHTTP.capabilities.includes('filter')) {
+  if (!remoteHTTP.capabilities.has('filter')) {
     throw new RemoteCapabilityError('filter', 'filters')
   }
   // the only "want" we need is the requested commit
