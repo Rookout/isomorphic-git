@@ -8,6 +8,7 @@ export function writeUploadPackRequest({
   depth = null,
   since = null,
   exclude = [],
+  filters = [],
 }) {
   const packstream = []
   wants = [...new Set(wants)] // remove duplicates
@@ -29,6 +30,9 @@ export function writeUploadPackRequest({
   }
   for (const oid of exclude) {
     packstream.push(GitPktLine.encode(`deepen-not ${oid}\n`))
+  }
+  for (const filter of filters) {
+    packstream.push(GitPktLine.encode(`filter ${filter}\n`))
   }
   packstream.push(GitPktLine.flush())
   for (const oid of haves) {

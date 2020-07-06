@@ -58,6 +58,7 @@ export async function _clone({
   noCheckout,
   noTags,
   headers,
+  filters,
 }) {
   await _init({ fs, gitdir })
   await _addRemote({ fs, gitdir, remote, url, force: false })
@@ -84,6 +85,7 @@ export async function _clone({
     singleBranch,
     headers,
     tags: !noTags,
+    filters,
   })
   if (fetchHead === null) return
   ref = ref || defaultBranch
