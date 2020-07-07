@@ -92,7 +92,7 @@ export async function fetchTree({ http, url, commitId }) {
     for (const entry of parsedTree.entries()) {
       if (entry.type === 'blob') {
         repoTreeList.push({ fullpath: join(path, entry.path), oid: entry.oid })
-      } else {
+      } else if (entry.type === 'tree') {
         await buildTreeList(join(path, entry.path), entry.oid)
       }
     }
